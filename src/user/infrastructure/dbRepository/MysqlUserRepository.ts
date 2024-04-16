@@ -1,6 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import { User } from "../../domain/User";
 import { UserRepository } from "../../domain/repository/UserRepository";
+import bcrypt from 'bcrypt';
+
 
 export class MysqlUserRepository implements UserRepository {
   private prisma: PrismaClient;
@@ -66,23 +68,30 @@ export class MysqlUserRepository implements UserRepository {
     }
   }
 
-  async getByEmail(email: string): Promise<User | null> {
+
+  async login(email: string, password: string): Promise<User | null> {
     try {
       const user = await this.prisma.user.findFirst({
         where: {
-          email: email,
-        },
-        include: {
-          enclosure: true,
+          email: email, 
         },
       });
-
+  
       if (!user) return null;
-
-      return new User(user.id, user.name, user.email, user.password);
+  
+      const passwordMatch = await bcrypt.compare(password, user.password);
+  
+      if (!passwordMatch) return null;
+  
+      return user;
     } catch (error) {
-      console.error("Error fetching user by email:", error);
+      console.error("Error logging in:", error);
       return null;
     }
   }
+  
+
+
+
+
 }

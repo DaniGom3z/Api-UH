@@ -2,6 +2,7 @@ import { User } from "../User";
 
 export interface UserRepository {
   getById(userId: number): Promise<User | null>;
+  login(email: string,password:string): Promise<User | null>;
   createUser(
     name: string,
     email: string,
