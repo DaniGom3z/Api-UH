@@ -1,4 +1,4 @@
-import { Enclosure } from "@prisma/client";
+import { Datos } from "@prisma/client";
 
 export class User {
   constructor(
@@ -6,6 +6,6 @@ export class User {
     readonly name: string,
     readonly email: string,
     readonly password: string,
-    readonly enclosure?: Enclosure[], // Hacer enclosure opcional añadiendo "?" al final
+    readonly datos?: Datos[], // Hacer enclosure opcional añadiendo "?" al final
   ) {}
 }

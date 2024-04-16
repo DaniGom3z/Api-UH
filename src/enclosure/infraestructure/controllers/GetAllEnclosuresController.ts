@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-
 import { GetAllEnclosuresUseCase } from "../../application/GetAllEnclosuresUseCase";
 
 export class GetAllEnclosuresController {
@@ -8,31 +7,26 @@ export class GetAllEnclosuresController {
   async run(req: Request, res: Response) {
     try {
       const enclosures = await this.getAllenclosuresUseCase.run();
-      if (enclosures)
-        //Code HTTP : 200 -> Consulta exitosa
+      
+      if (enclosures) {
+        const datos = enclosures.map(enclosure => enclosure.datos);
+
         res.status(200).send({
           status: "success",
-          data: enclosures.map((enclosure: any) => {
-            return {
-              id: enclosure.id,
-              name: enclosure.name,
-              typeOfFood: enclosure.typeOfFood,
-              vaccine: enclosure.vaccine,
-              id_data:enclosure.id_data
-            };
-          }),
+          data: datos.flat(), 
         });
-      else
+      } else {
         res.status(400).send({
           status: "error",
-          msn: "Ocurrio algún problema",
+          msn: "Ocurrió algún problema al obtener los encierros",
         });
-    } catch (error) {
-      //Code HTTP : 204 Sin contenido
-      res.status(204).send({
+      }
+    } catch (error: any) { 
+      console.error("Error al obtener los encierros:", error);
+      res.status(500).send({
         status: "error",
-        data: "Ocurrio un error",
-        msn: error,
+        message: "Ocurrió un error interno al obtener los encierros",
+        error: error.message,
       });
     }
   }

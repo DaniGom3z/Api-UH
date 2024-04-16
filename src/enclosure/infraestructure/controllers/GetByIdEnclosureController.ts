@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { GetByIdEnclosureUseCase } from "../../application/GetByIdEnclosureUseCase";
+import { addDays, isAfter } from "date-fns"; // Importa las funciones necesarias de date-fns
 
 export class GetByIdEnclosureController {
   constructor(readonly getByIdEnclosureUseCase: GetByIdEnclosureUseCase) {}
@@ -10,26 +11,25 @@ export class GetByIdEnclosureController {
       const enclosure = await this.getByIdEnclosureUseCase.run(id);
 
       if (enclosure) {
-        // Obtener los datos y el usuario asociados al encierro
-        const { datos,  ...enclosureData } = enclosure;
+        let { datos, ...enclosureData } = enclosure;
 
-        // Code HTTP: 200 -> Consulta exitosa
+        const threeDaysAgo = addDays(new Date(), -3);
+        datos = datos.filter(data => isAfter(new Date(data.date), threeDaysAgo));
+
         res.status(200).send({
           status: "success",
           data: {
-            ...enclosureData, // Datos del encierro
-            datos, // Datos asociados al encierro
+            ...enclosureData, 
+            datos, 
           },
         });
       } else {
-        // Code HTTP: 400 -> Error de solicitud
         res.status(400).send({
           status: "error",
           msn: "Ocurrió algún problema",
         });
       }
-    } catch (error: any) { // Especificar el tipo de 'error'
-      // Code HTTP: 500 -> Error interno del servidor
+    } catch (error: any) {
       res.status(500).send({
         status: "error",
         message: "Ocurrió un error interno",

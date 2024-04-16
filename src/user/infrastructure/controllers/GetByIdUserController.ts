@@ -11,14 +11,13 @@ export class GetByIdUserController {
 
       if (user) {
         // Obtener los enclosures asociados al usuario
-        const { enclosure, ...userData } = user;
+        const { datos } = user;
 
         // Code HTTP: 200 -> Consulta exitosa
         res.status(200).send({
           status: "success",
           data: {
-            ...userData, // Datos del usuario
-            enclosure, // Enclosures asociados al usuario
+            datos, // Enclosures asociados al usuario
           },
         });
       } else {

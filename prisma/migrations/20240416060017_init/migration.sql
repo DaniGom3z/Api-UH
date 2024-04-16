@@ -6,6 +6,7 @@ CREATE TABLE `Datos` (
     `food` VARCHAR(191) NOT NULL,
     `water` VARCHAR(191) NOT NULL,
     `enclosureId` INTEGER NOT NULL,
+    `datoId` INTEGER NOT NULL,
     `date` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`id`)
@@ -34,6 +35,9 @@ CREATE TABLE `User` (
 
 -- AddForeignKey
 ALTER TABLE `Datos` ADD CONSTRAINT `Datos_enclosureId_fkey` FOREIGN KEY (`enclosureId`) REFERENCES `Enclosure`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Datos` ADD CONSTRAINT `Datos_datoId_fkey` FOREIGN KEY (`datoId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Enclosure` ADD CONSTRAINT `Enclosure_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

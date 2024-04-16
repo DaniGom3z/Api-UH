@@ -16,6 +16,8 @@ model Datos {
   water       String
   enclosure   Enclosure @relation(fields: [enclosureId], references: [id])
   enclosureId Int
+  dato   User @relation(fields: [datoId], references: [id])
+  datoId Int
   date String
 }
 
@@ -35,4 +37,5 @@ model User{
   email String
   password String
   enclosure Enclosure[]
+  datos Datos[]
 }

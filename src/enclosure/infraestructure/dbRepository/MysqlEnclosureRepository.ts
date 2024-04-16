@@ -14,7 +14,6 @@ export class MysqlEnclosureRepository implements EnclosureRepository {
       return await this.prisma.enclosure.findMany({
         include: {
           datos: true, 
-          user: true,
         },
       });
     } catch (error) {

@@ -14,13 +14,10 @@ export class LoginUserController {
         return res.status(400).json({ status: "error", message: "No se encontró el usuario y/o la contraseña es incorrecta" });
       }
 
-      // Generar el token JWT
-      const token = jwt.sign({ userId: user.id }, 'your_secret_key', { expiresIn: '1h' }); // Cambiar la clave secreta y el tiempo de expiración según tus necesidades
+      const token = jwt.sign({ userId: user.id }, 'clavecita', { expiresIn: '1h' }); 
 
-      // Obtener los enclosures asociados al usuario
-      const { enclosure, ...userData } = user;
+      const { ...userData } = user;
 
-      // Devolver el token y los datos del usuario
       res.status(200).json({
         status: "success",
         data: {

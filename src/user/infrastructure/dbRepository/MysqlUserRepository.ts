@@ -18,7 +18,7 @@ export class MysqlUserRepository implements UserRepository {
           id: userId,
         },
         include: {
-          enclosure: true,
+          datos: true,
         },
       });
   
@@ -29,7 +29,7 @@ export class MysqlUserRepository implements UserRepository {
         user.name,
         user.email,
         user.password,
-        user.enclosure // Incluir los enclosures asociados al usuario
+        user.datos 
       );
     } catch (error) {
       console.error("Error fetching user by ID:", error);
