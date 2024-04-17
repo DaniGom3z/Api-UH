@@ -9,11 +9,14 @@ export class GetAllEnclosuresController {
       const enclosures = await this.getAllenclosuresUseCase.run();
       
       if (enclosures) {
-        const datos = enclosures.map(enclosure => enclosure.datos);
+        const data = enclosures.map(enclosure => ({
+          name: enclosure.name,
+          datos: enclosure.datos
+        }));
 
         res.status(200).send({
           status: "success",
-          data: datos.flat(), 
+          data: data.flat(), 
         });
       } else {
         res.status(400).send({

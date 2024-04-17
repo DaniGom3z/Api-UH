@@ -1,9 +1,11 @@
 import express from "express";
+import cors from "cors"; // Importa el middleware CORS
 import { Signale } from "signale";
 import { userRouter } from "./user/infrastructure/UserRouter";
 import { enclosureRouter } from "./enclosure/infraestructure/EnclosureRouter";
 
 const app = express();
+const logger = new Signale();
 
 app.disable("x-powered-by");
 
@@ -11,7 +13,7 @@ const options = {
   secrets: ["([0-9]{4}-?)+"]
 };
 
-const logger = new Signale(options); 
+app.use(cors()); 
 
 app.use(express.json());
 app.use("/users", userRouter);

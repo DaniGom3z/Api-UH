@@ -20,6 +20,7 @@ export class LoginUserController {
 
       res.status(200).json({
         status: "success",
+        ...userData,
         data: {
           token,
         },
